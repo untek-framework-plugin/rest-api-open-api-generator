@@ -1,0 +1,24 @@
+{
+  "name": "untek-framework-plugin/rest-api-open-api-generator",
+  "type": "extension",
+  "license": "MIT",
+  "homepage": "https://untek-lab.github.io",
+  "authors": [
+    {
+      "name": "Untek Developer",
+      "email": "untek.developer@gmail.com"
+    }
+  ],
+  "minimum-stability": "dev",
+  "require": {
+    "untek-component/format-adapter": "0.1.x-dev",
+    "symfony/yaml": "6.3.x-dev",
+    "guzzlehttp/psr7": "^1.9.1 || ^2.4.5"
+  },
+  "autoload": {
+    "psr-4": {
+      "Untek\\FrameworkPlugin\\RestApiOpenApiGenerator\\": "src",
+      "Untek\\FrameworkPlugin\\RestApiOpenApiGenerator\\Tests\\": "tests"
+    }
+  }
+}
