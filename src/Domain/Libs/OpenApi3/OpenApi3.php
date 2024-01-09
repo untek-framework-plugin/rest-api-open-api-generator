@@ -19,7 +19,6 @@ use Untek\FrameworkPlugin\RestApiOpenApiGenerator\Domain\Dto\RequestDto;
 use Untek\FrameworkPlugin\RestApiOpenApiGenerator\Domain\Dto\ResponsetDto;
 use Untek\Sandbox\Sandbox\RpcClient\Symfony4\Admin\Forms\RequestForm;
 use Untek\Sandbox\Sandbox\RpcMock\Domain\Libs\HasherHelper;
-use Untek\FrameworkPlugin\RestApiOpenApiGenerator\Domain\Helpers\RequestHelper;
 
 class OpenApi3
 {
@@ -112,7 +111,7 @@ class OpenApi3
 
         $main = $this->getPathsForMain($requestDto);
 //        dd($main);
-//        $this->addPathInMain($main, $tag);
+        $this->addPathInMain($main, $tag);
     }
 
     protected function getPathsForMain(RequestDto $requestDto)
@@ -151,20 +150,9 @@ class OpenApi3
 //        dd($actionName);
 //        list($tag, $actionName) = explode('.', $methodName);
         $res = [
-//            'paths' => [
-//                $actionName => [
                     $methodName => $postConfig,
-//                ],
-//            ],
         ];
 
-//        dd($res);
-
-//        $endPointPath = trim($requestDto->uri, '/');
-//        $endPointPath = $endPointPath . '/' . $requestDto->method;
-
-//        dd($endPointPath);
-//        dd($res);
         $endPointPath = $this->getEndpointFileName($requestDto);
 
         $config = $this->loadYaml($endPointPath);
@@ -201,7 +189,7 @@ class OpenApi3
         $main = $this->loadYaml('index.yaml');
 
         $main = ArrayHelper::merge($main, $config);
-        ksort($main['paths']);
+//        ksort($main['paths']);
 
         /*if (!empty($main['tags'])) {
             $hasTag = false;
