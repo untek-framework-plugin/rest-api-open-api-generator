@@ -114,32 +114,20 @@ class OpenApiRequest
         return $data;
     }
 
-    public function createPostRequest(RequestDto $requestDto) {// Request $request, Response $response, RequestForm $requestForm
+    public function createPostRequest(RequestDto $requestDto) {
         $dataSchemaEncoder = new DataSchema();
-
-//        $rpcRequest = $this->generateRpcRequest($request, $response);
-
-//        dd($requestDto->body);
 
         $responseSchema = $dataSchemaEncoder->encode($requestDto->response->body);
         $responseSchema['example'] = $requestDto->response->body;
-//        $rpcResponse = $this->generateRpcResponse($request, $response);
-
-//        $methodName = $request->getMethod();
-//        list($tag, $actionName) = explode('.', $methodName);
-
-//        $tag = 'common';
-//        $tag = trim($requestDto->uri, '/');
-
-//        $actionName = $requestDto->uri;
+        $statusCode = $requestDto->response->statusCode;
 
         $postConfig = [
-            /*'tags' => [
-                $tag
-            ],*/
+            'tags' => [
+                'Default'
+            ],
             'summary' => 'Description',
             'responses' => [
-                200 => [
+                $statusCode => [
                     'content' => [
                         'application/json' => [
                             'schema' => $responseSchema
@@ -149,9 +137,11 @@ class OpenApiRequest
             ],
         ];
 
+//        dd($statusCode);
 
         if($requestDto->body) {
             $requestSchema = $dataSchemaEncoder->encode($requestDto->body);
+//            dd($requestSchema);
             $requestSchema['example'] = $requestDto->body;
             $postConfig['requestBody'] = [
                 'content' => [
@@ -162,21 +152,9 @@ class OpenApiRequest
             ];
         }
 
-
         if($requestDto->query) {
-            $postConfig['parameters'] = $dataSchemaEncoder->encodeParameters($requestDto->query);
+            $postConfig['parameters'] = $dataSchemaEncoder->encodeParameters($requestDto->query, 'query');
         }
-
-        /*$responseMeta = $response->getMeta();
-        if ($responseMeta) {
-            $postConfig['responses'][200]['headers'] = $dataSchemaEncoder->encode($responseMeta)['properties'];
-        }
-
-        if ($this->isHasAuth($request)) {
-            $postConfig['security'][] = [
-                'bearerAuth' => []
-            ];
-        }*/
 
         return $postConfig;
     }

@@ -41,11 +41,6 @@ class OpenApi3
     }
 
     protected function createRequsetDto(Request $request, Response $response): RequestDto {
-
-//        $r = parse_url($request->getUri());
-//        dd($r);
-//        dd((Query::parse($r['query'])));
-
         $urlData = UrlHelper::parse($request->getUri());
 
         $requestDto = new RequestDto();
@@ -56,14 +51,17 @@ class OpenApi3
 
         if(!empty($urlData['query'])) {
             $requestDto->query = $urlData['query'];
-//            dd($urlData['query']);
         }
         $requestDto->headers = SymfonyHttpResponseHelper::extractHeaders($request->headers->all());
 
-        $content = $request->getContent();
-        $content = trim($content);
-        if($content) {
-            $requestDto->body = json_decode($content, JSON_OBJECT_AS_ARRAY);
+//        dd($request->getContent());
+
+        if($request->getMethod() != 'GET') {
+            $content = $request->getContent();
+            $content = trim($content);
+            if($content) {
+                $requestDto->body = json_decode($content, JSON_OBJECT_AS_ARRAY);
+            }
         }
 
         $responseDto = new ResponsetDto();

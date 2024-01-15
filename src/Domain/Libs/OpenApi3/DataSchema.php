@@ -20,7 +20,7 @@ class DataSchema implements EncodeInterface
         return $data;
     }
 
-    public function encodeItem($data): array
+    protected function encodeItem($data): array
     {
         $item = [
             'description' => "Field description",
@@ -48,7 +48,7 @@ class DataSchema implements EncodeInterface
         return $item;
     }
 
-    public function encodeItems(array $data): array
+    protected function encodeItems(array $data): array
     {
         $res = [];
         foreach ($data as $fieldName => $value) {
@@ -57,14 +57,14 @@ class DataSchema implements EncodeInterface
         return $res;
     }
 
-    public function encodeParameters(array $data): array
+    public function encodeParameters(array $data, string $in): array
     {
         $parameters = [];
         foreach ($data as $queryKey => $queryValue) {
             $it = [];
             $schema = $this->encodeItem($queryValue);
             $it['schema']['type'] = $schema['type'];
-            $it['id'] = 'path';
+            $it['in'] = $in;
             $it['name'] = $queryKey;
             $it['description'] = "\"$queryKey\" field description";
             $it['example'] = $queryValue;
