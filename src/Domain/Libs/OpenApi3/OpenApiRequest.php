@@ -121,6 +121,8 @@ class OpenApiRequest
         $responseSchema['example'] = $requestDto->response->body;
         $statusCode = $requestDto->response->statusCode;
 
+        unset($responseSchema['description']);
+
         $postConfig = [
             'tags' => [
                 'Default'
@@ -137,10 +139,11 @@ class OpenApiRequest
             ],
         ];
 
-//        dd($statusCode);
+//        dd($responseSchema);
 
         if($requestDto->body) {
             $requestSchema = $dataSchemaEncoder->encode($requestDto->body);
+            unset($requestSchema['description']);
 //            dd($requestSchema);
             $requestSchema['example'] = $requestDto->body;
             $postConfig['requestBody'] = [
