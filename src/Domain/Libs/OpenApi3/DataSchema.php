@@ -32,6 +32,7 @@ class DataSchema implements EncodeInterface
             $item['type'] = 'array';
             if($data) {
                 $item['items'] = $this->encode($data[0]);
+                unset($item['items']['description']);
 //                $item['example'] = json_encode($data, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE);
 //                $item['example'] = $data;
             }
