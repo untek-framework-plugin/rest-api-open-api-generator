@@ -17,8 +17,11 @@ return static function (ContainerConfigurator $configurator): void {
             getenv('OPEN_API_REST_API_SOURCE_DIRECTORY')
         ]);
 
-    $services->set(GenerateOpenApiDocsSubscriber::class, GenerateOpenApiDocsSubscriber::class)
-        ->args([
-            service(OpenApi3::class)
-        ]);
+    if(getenv('OPEN_API_ENABLED')) {
+        $services->set(GenerateOpenApiDocsSubscriber::class, GenerateOpenApiDocsSubscriber::class)
+            ->args([
+                service(OpenApi3::class)
+            ])
+            ->tag('kernel.event_subscriber');
+    }
 };
