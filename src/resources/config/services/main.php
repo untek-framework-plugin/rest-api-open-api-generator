@@ -10,7 +10,7 @@ use Untek\FrameworkPlugin\RestApiOpenApiGenerator\Domain\Subscribers\GenerateOpe
 use function Symfony\Component\DependencyInjection\Loader\Configurator\service;
 
 return static function (ContainerConfigurator $configurator): void {
-    $services = $configurator->services()->defaults()->public();
+    $services = $configurator->services()->defaults()->public()->autoconfigure();
 
     $services->set(OpenApi3::class, OpenApi3::class)
         ->args([
@@ -21,7 +21,6 @@ return static function (ContainerConfigurator $configurator): void {
         $services->set(GenerateOpenApiDocsSubscriber::class, GenerateOpenApiDocsSubscriber::class)
             ->args([
                 service(OpenApi3::class)
-            ])
-            ->tag('kernel.event_subscriber');
+            ]);
     }
 };
